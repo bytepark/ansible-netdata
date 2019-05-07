@@ -1,0 +1,26 @@
+# NetData Configuration
+
+# The current full configuration can be retrieved from the running
+# server at the URL
+#
+#   http://localhost:19999/netdata.conf
+#
+# for example:
+#
+#   wget -O /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
+#
+
+[global]
+	run as user = {{ netdata.user | default('netdata') }}
+	web files owner = {{ netdata.webfiles_owner | default('netdata') }}
+	web files group = {{ netdata.webfiles_group | default('netdata') }}
+	# Netdata is not designed to be exposed to potentially hostile
+	# networks.See https://github.com/firehol/netdata/issues/164
+	bind socket to IP = {{ netdata.bind_ip | default('127.0.0.1') }}
+
+{% if netdata.registry_enabled is defined %}
+[registry]
+    enabled = {{ netdata.registry_enabled }}
+    registry to announce = {{ netdata.registry }}
+    {% if netdata.registry_hostname is defined %}registry hostname = {{ netdata.registry_hostname }}{% endif %}
+{% endif %}

@@ -1,0 +1,21 @@
+galaxy_info:
+  role_name: netdata
+  author: Dev Team
+  description: Ansible Role to install and configure netdata
+  company: bytepark GmbH
+
+  license: license (MIT)
+
+  min_ansible_version: 2.4
+
+  platforms:
+   - name: Ubuntu
+     versions:
+     - bionic
+
+  galaxy_tags:
+    - web
+    - monitoring
+    - netdata
+
+dependencies: []

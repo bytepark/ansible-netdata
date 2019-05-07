@@ -1,0 +1,16 @@
+---
+- name: "[netdata] Download Netdata Kickstart"
+  get_url:
+    url: https://my-netdata.io/kickstart-static64.sh
+    dest: /tmp/kickstart-static64.sh
+    mode: 0440
+
+- name: "[netdata] Install netdata package"
+  shell: "bash /tmp/kickstart-static64.sh --stable-channel --dont-wait"
+
+- name: "[netdata] Copy netdata.conf"
+  template:
+    src: "netdata.conf.j2"
+    dest: "/opt/netdata/etc/netdata/netdata.conf"
+    mode: 0644
+  notify: ['Restart Netdata service']

@@ -1,0 +1,7 @@
+---
+# handlers file for netdata
+- name: Restart Netdata service
+  service:
+    name: "netdata"
+    state: "restarted"
+    enabled: true
