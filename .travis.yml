@@ -20,14 +20,14 @@ install:
 
 script:
 # Basic role syntax check
-- ansible-playbook tests/$PLAYBOOK -i tests/inventory --syntax-check
+- ansible-playbook tests/$PLAYBOOK --syntax-check
 
 # Initial run
-- ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become
+- ansible-playbook tests/$PLAYBOOK --connection=local --become
 
 # Run the role/playbook again, checking to make sure it's idempotent.
 - >
-  ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become
+  ansible-playbook tests/$PLAYBOOK --connection=local --become
   | grep -q 'changed=0.*failed=0'
   && (echo 'Idempotence test: pass' && exit 0)
   || (echo 'Idempotence test: fail' && exit 1)
