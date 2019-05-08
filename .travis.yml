@@ -2,6 +2,15 @@
 language: python
 python: "2.7"
 
+matrix:
+  include:
+    - python: 2.7
+      env: PYBIN=/home/travis/virtualenv/python2.7.12/bin/python2.7
+    - python: 3.5
+      env: PYBIN=/home/travis/virtualenv/python3.5.2/bin/python3.5
+    - python: 3.6
+      env: PYBIN=/home/travis/virtualenv/python3.6.1/bin/python3.6
+
 env:
 - PLAYBOOK=test.yml
 
@@ -23,11 +32,11 @@ script:
 - ansible-playbook tests/$PLAYBOOK -i tests/inventory --syntax-check
 
 # Initial run
-- ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become
+- ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become -e ansible_python_interpreter=$PYBIN
 
 # Run the role/playbook again, checking to make sure it's idempotent.
 - >
-  ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become
+  ansible-playbook tests/$PLAYBOOK -i tests/inventory --connection=local --become -e ansible_python_interpreter=$PYBIN
   | grep -q 'changed=0.*failed=0'
   && (echo 'Idempotence test: pass' && exit 0)
   || (echo 'Idempotence test: fail' && exit 1)
