@@ -19,6 +19,7 @@
     bind socket to IP = {{ netdata.bind_ip | default('127.0.0.1') }}
     {% if netdata.history is defined %}history = {{ netdata.history }}{% endif %}
 
+
 {% if netdata.registry_enabled is defined %}
 [registry]
     enabled = {{ netdata.registry_enabled }}

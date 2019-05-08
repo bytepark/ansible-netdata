@@ -14,3 +14,11 @@
     dest: "/opt/netdata/etc/netdata/netdata.conf"
     mode: 0644
   notify: ['Restart Netdata service']
+
+- name: "[netdata] Copy health_alarm_notify.conf"
+  template:
+    src: "health_alarm_notify.conf.j2"
+    dest: "/opt/netdata/etc/netdata/health_alarm_notify.conf"
+    mode: 0644
+  notify: ['Restart Netdata service']
+
