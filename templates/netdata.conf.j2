@@ -23,6 +23,10 @@
 {% if netdata.registry_enabled is defined %}
 [registry]
     enabled = {{ netdata.registry_enabled }}
-    {% if netdata.registry is defined %}registry to announce = {{ netdata.registry }}{% endif %}
-    {% if netdata.registry_hostname is defined %}registry hostname = {{ netdata.registry_hostname }}{% endif %}
+{% if netdata.registry is defined %}
+    registry to announce = {{ netdata.registry }}
+{% endif %}
+{% if netdata.registry_hostname is defined %}
+    registry hostname = {{ netdata.registry_hostname }}
+{% endif %}
 {% endif %}
