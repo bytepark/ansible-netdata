@@ -11,16 +11,17 @@
 #
 
 [global]
-	run as user = {{ netdata.user | default('netdata') }}
-	web files owner = {{ netdata.webfiles_owner | default('netdata') }}
-	web files group = {{ netdata.webfiles_group | default('netdata') }}
-	# Netdata is not designed to be exposed to potentially hostile
-	# networks.See https://github.com/firehol/netdata/issues/164
-	bind socket to IP = {{ netdata.bind_ip | default('127.0.0.1') }}
+    run as user = {{ netdata.user | default('netdata') }}
+    web files owner = {{ netdata.webfiles_owner | default('netdata') }}
+    web files group = {{ netdata.webfiles_group | default('netdata') }}
+    # Netdata is not designed to be exposed to potentially hostile
+    # networks.See https://github.com/firehol/netdata/issues/164
+    bind socket to IP = {{ netdata.bind_ip | default('127.0.0.1') }}
+    {% if netdata.history is defined %}history = {{ netdata.history }}{% endif %}
 
 {% if netdata.registry_enabled is defined %}
 [registry]
     enabled = {{ netdata.registry_enabled }}
-    registry to announce = {{ netdata.registry }}
+    {% if netdata.registry is defined %}registry to announce = {{ netdata.registry }}{% endif %}
     {% if netdata.registry_hostname is defined %}registry hostname = {{ netdata.registry_hostname }}{% endif %}
 {% endif %}
