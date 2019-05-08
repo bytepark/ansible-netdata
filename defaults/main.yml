@@ -1,9 +1,4 @@
 ---
-#netdata.user
-#netdata.webfiles_owner
-#netdata.webfiles_group
-#netdata.bind_ip
-#netdata.registry_enabled
-#netdata.registry
-#netdata.registry_hostname
+netdata:
+  bind_ip: 127.0.0.1  
 
