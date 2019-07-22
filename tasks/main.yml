@@ -4,41 +4,36 @@
     url: https://my-netdata.io/kickstart-static64.sh
     dest: /tmp/kickstart-static64.sh
     mode: 0440
-
 - name: "[netdata] Install netdata package"
   shell: "bash /tmp/kickstart-static64.sh --stable-channel --dont-wait"
-
 - name: "[netdata] Copy netdata.conf"
   template:
     src: "netdata.conf.j2"
     dest: "/opt/netdata/etc/netdata/netdata.conf"
     mode: 0644
   notify: ['Restart Netdata service']
-
 - name: "[netdata] Copy health_alarm_notify.conf"
   template:
     src: "health_alarm_notify.conf.j2"
     dest: "/opt/netdata/etc/netdata/health_alarm_notify.conf"
     mode: 0644
   notify: ['Restart Netdata service']
-
 - name: "[netdata] Get API Key"
-  command: cat /opt/netdata/var/lib/netdata/netdata.api.key
+  slurp:
+    src: /opt/netdata/var/lib/netdata/netdata.api.key
   register: apikey
-
 - name: "[netdata] Reset all alarms"
   uri:
     url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=RESET"
     headers:
-      X-Auth-Token: "{{ apikey.stdout }}"
+      X-Auth-Token: "{{ apikey.content | b64decode }}"
   delegate_to: 127.0.0.1
   when: netdata.registry_hostname is defined
-
 - name: "[netdata] Silence alarms"
   uri:
     url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=SILENCE&{{ item }}"
     headers:
-      X-Auth-Token: "{{ apikey.stdout }}"
+      X-Auth-Token: "{{ apikey.content | b64decode }}"
   delegate_to: 127.0.0.1
   with_items: "{{ netdata.silenced_alarms | default ([]) }}"
   when: netdata.registry_hostname is defined
