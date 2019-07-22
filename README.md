@@ -22,6 +22,7 @@ netdata.bind_ip
 netdata.registry_enabled
 netdata.registry
 netdata.registry_hostname
+netdata.silenced_alarms
 ```
 
 
