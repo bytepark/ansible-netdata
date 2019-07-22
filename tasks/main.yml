@@ -22,3 +22,21 @@
     mode: 0644
   notify: ['Restart Netdata service']
 
+- name: "[netdata] Get API Key"
+  command: cat /opt/netdata/var/lib/netdata/netdata.api.key
+  register: apikey
+
+- name: "[netdata] Reset all alarms"
+  uri:
+    url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=RESET"
+    headers:
+      X-Auth-Token: "{{ apikey.stdout }}"
+  delegate_to: 127.0.0.1
+
+- name: "[netdata] Silence alarms"
+  uri:
+    url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=SILENCE&{{ item }}"
+    headers:
+      X-Auth-Token: "{{ apikey.stdout }}"
+  delegate_to: 127.0.0.1
+  with_items: "{{ netdata.silenced_alarms | default ([]) }}"
