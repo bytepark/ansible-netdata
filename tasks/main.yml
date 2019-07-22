@@ -5,7 +5,7 @@
     dest: /tmp/kickstart-static64.sh
     mode: 0440
 - name: "[netdata] Install netdata package"
-  shell: "bash /tmp/kickstart-static64.sh --stable-channel --dont-wait"
+  script: "bash /tmp/kickstart-static64.sh --stable-channel --dont-wait"
 - name: "[netdata] Copy netdata.conf"
   template:
     src: "netdata.conf.j2"
