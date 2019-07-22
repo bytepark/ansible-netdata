@@ -32,6 +32,7 @@
     headers:
       X-Auth-Token: "{{ apikey.stdout }}"
   delegate_to: 127.0.0.1
+  when: netdata.registry_hostname is defined
 
 - name: "[netdata] Silence alarms"
   uri:
@@ -40,3 +41,4 @@
       X-Auth-Token: "{{ apikey.stdout }}"
   delegate_to: 127.0.0.1
   with_items: "{{ netdata.silenced_alarms | default ([]) }}"
+  when: netdata.registry_hostname is defined
