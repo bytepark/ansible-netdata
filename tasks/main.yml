@@ -33,6 +33,8 @@
       X-Auth-Token: "{{ apikey.content | b64decode }}"
   delegate_to: 127.0.0.1
   when: netdata.registry_hostname is defined
+  tags:
+  - silence
 - name: "[netdata] Silence alarms"
   uri:
     url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=SILENCE&{{ item }}"
@@ -41,3 +43,5 @@
   delegate_to: 127.0.0.1
   with_items: "{{ netdata.silenced_alarms | default ([]) }}"
   when: netdata.registry_hostname is defined
+  tags:
+  - silence
