@@ -26,6 +26,8 @@
   slurp:
     src: /opt/netdata/var/lib/netdata/netdata.api.key
   register: apikey
+  tags:
+  - silence
 - name: "[netdata] Reset all alarms"
   uri:
     url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=RESET"
