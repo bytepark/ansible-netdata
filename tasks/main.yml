@@ -30,7 +30,7 @@
   - silence
 - name: "[netdata] Reset all alarms"
   uri:
-    url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=RESET"
+    url: "{{ netdata.url }}api/v1/manage/health?cmd=RESET"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
   become: no
@@ -40,7 +40,7 @@
   - silence
 - name: "[netdata] Silence alarms"
   uri:
-    url: "https://{{ netdata.registry_hostname }}/netdata/api/v1/manage/health?cmd=SILENCE&{{ item }}"
+    url: "{{ netdata.url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
   become: no
