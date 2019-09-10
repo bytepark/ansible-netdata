@@ -33,7 +33,7 @@
     url: "{{ netdata.url }}api/v1/manage/health?cmd=RESET"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata.validate_certs }}"
+    validate_certs: "{{ netdata.validate_certs | default('yes') }}"
   become: no
   delegate_to: 127.0.0.1
   when: netdata.registry_hostname is defined
@@ -44,7 +44,7 @@
     url: "{{ netdata.url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata.validate_certs }}"
+    validate_certs: "{{ netdata.validate_certs | default('yes') }}"
   become: no
   delegate_to: 127.0.0.1
   with_items: "{{ netdata.silenced_alarms | default ([]) }}"
