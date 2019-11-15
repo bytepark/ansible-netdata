@@ -12,17 +12,17 @@ ORDER = [
 
 CHARTS = {
 	'errors': {
-		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.error_levels', 'line'],
+		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.error_types', 'line'],
 		'lines' : [
 			['Timeout'],
-                        ['Refused'],
+            ['Refused'],
 			['AccessForbidden'],
 			['DirectoryIndexForbidden'],
 			['NoSuchFile']
 		]
 	},
 	'levels': {
-		'options' : [None, 'Errors per level in error log', 'errors', 'nginx errors', 'nginx.error_types', 'line'],
+		'options' : [None, 'Errors per level in error log', 'errors', 'nginx errors', 'nginx.error_levels', 'line'],
 		'lines' : [
 			['emerg'],
 			['alert'],
@@ -37,8 +37,8 @@ CHARTS = {
 }
 
 REGEX = {
-	'Timeout' : 'upstream timed out .*',
-        'Refused' : 'Connection refused .*',
+	'Timeout' : 'upstream timed out',
+    'Refused' : 'Connection refused',
 	'AccessForbidden' : 'access forbidden by rule',
 	'DirectoryIndexForbidden' : 'directory index of \".*\" is forbidden',
 	'NoSuchFile' : 'No such file or directory'
