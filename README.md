@@ -23,6 +23,7 @@ netdata.registry_enabled
 netdata.registry
 netdata.registry_hostname
 netdata.silenced_alarms
+netdata.monitored_vhosts
 ```
 
 
