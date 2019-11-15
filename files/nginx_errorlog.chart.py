@@ -15,6 +15,7 @@ CHARTS = {
 		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.errors', 'line'],
 		'lines' : [
 			['timeout'],
+                        ['refused'],
 			['access forbidden'],
 			['directory index forbidden'],
 			['no such file or directory']
@@ -37,6 +38,7 @@ CHARTS = {
 
 REGEX = {
 	'timeout' : 'upstream timed out .*',
+        'refused' : 'Connection refused .*',
 	'access forbidden' : 'access forbidden by rule',
 	'directory index forbidden' : 'directory index of \".*\" is forbidden',
 	'no such file or directory' : 'No such file or directory'
