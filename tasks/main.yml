@@ -86,3 +86,12 @@
     group: netdata
     mode: 0640
   when: not nginx_check.changed
+
+- name: "[netdata] Copy web log plugin job config"
+  template:
+    src: "web_log.conf.j2"
+    dest: "/opt/netdata/etc/netdata/python.d/web_log.conf"
+    owner: netdata
+    group: netdata
+    mode: 0640
+  when: not nginx_check.changed
