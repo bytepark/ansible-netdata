@@ -14,11 +14,11 @@ CHARTS = {
 	'errors': {
 		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.errors', 'line'],
 		'lines' : [
-			['timeout'],
-                        ['refused'],
-			['access forbidden'],
-			['directory index forbidden'],
-			['no such file or directory']
+			['Timeout'],
+                        ['Refused'],
+			['AccessForbidden'],
+			['DirectoryIndexForbidden'],
+			['NoSuchFile']
 		]
 	},
 	'levels': {
@@ -37,11 +37,11 @@ CHARTS = {
 }
 
 REGEX = {
-	'timeout' : 'upstream timed out .*',
-        'refused' : 'Connection refused .*',
-	'access forbidden' : 'access forbidden by rule',
-	'directory index forbidden' : 'directory index of \".*\" is forbidden',
-	'no such file or directory' : 'No such file or directory'
+	'Timeout' : 'upstream timed out .*',
+        'Refused' : 'Connection refused .*',
+	'AccessForbidden' : 'access forbidden by rule',
+	'DirectoryIndexForbidden' : 'directory index of \".*\" is forbidden',
+	'NoSuchFile' : 'No such file or directory'
 }
 
 class Service(LogService):
