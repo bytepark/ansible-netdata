@@ -70,7 +70,7 @@
   when: not nginx_check.changed
 
 - name: "[netdata] Copy nginx error log plugin health config"
-  files:
+  copy:
     src: "nginx_errorlog.conf"
     dest: "/opt/netdata/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
     owner: netdata
