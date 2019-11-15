@@ -12,7 +12,7 @@ ORDER = [
 
 CHARTS = {
 	'errors': {
-		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.errors', 'line'],
+		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.error_levels', 'line'],
 		'lines' : [
 			['Timeout'],
                         ['Refused'],
@@ -22,7 +22,7 @@ CHARTS = {
 		]
 	},
 	'levels': {
-		'options' : [None, 'Errors per level in error log', 'errors', 'nginx errors', 'nginx.errors', 'line'],
+		'options' : [None, 'Errors per level in error log', 'errors', 'nginx errors', 'nginx.error_types', 'line'],
 		'lines' : [
 			['emerg'],
 			['alert'],
