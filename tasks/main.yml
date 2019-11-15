@@ -51,3 +51,38 @@
   when: netdata.registry_hostname is defined
   tags:
   - silence
+
+- name: "[netdata] Check if nginx is installed"
+  package:
+    name: nginx
+    state: present
+  check_mode: true
+  failed_when: false
+  register: nginx_check
+
+- name: "[netdata] Copy nginx error log plugin"
+  copy:
+    src: "nginx_errorlog.chart.py"
+    dest: "/opt/netdata/netdata-plugins/python.d/nginx_errorlog.chart.py"
+    owner: netdata
+    group: netdata
+    mode: 0644
+  when: not nginx_check.changed
+
+- name: "[netdata] Copy nginx error log plugin health config"
+  files:
+    src: "nginx_errorlog.conf"
+    dest: "/opt/netdata/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
+    owner: netdata
+    group: netdata
+    mode: 0640
+  when: not nginx_check.changed
+
+- name: "[netdata] Copy nginx error log plugin job config"
+  template:
+    src: "nginx_errorlog.conf.j2"
+    dest: "/opt/netdata/etc/netdata/python.d/nginx_errorlog.conf"
+    owner: netdata
+    group: netdata
+    mode: 0640
+  when: not nginx_check.changed

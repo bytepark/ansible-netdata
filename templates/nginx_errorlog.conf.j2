@@ -1,0 +1,5 @@
+{% for host in nginx_vhosts | default([]) %}
+{{ host.hostname }}:
+  name: {{ host.hostname }}:
+  path: '/var/log/nginx/{{ host.hostname }}-error.log'
+{% endfor %}
