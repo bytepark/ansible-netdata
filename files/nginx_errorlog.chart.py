@@ -15,7 +15,7 @@ CHARTS = {
 		'options': [None, 'Errors in log', 'errors', 'nginx errors', 'nginx.error_types', 'line'],
 		'lines' : [
 			['Timeout'],
-            ['Refused'],
+			['Refused'],
 			['AccessForbidden'],
 			['DirectoryIndexForbidden'],
 			['NoSuchFile']
@@ -38,7 +38,7 @@ CHARTS = {
 
 REGEX = {
 	'Timeout' : 'upstream timed out',
-    'Refused' : 'Connection refused',
+	'Refused' : 'Connection refused',
 	'AccessForbidden' : 'access forbidden by rule',
 	'DirectoryIndexForbidden' : 'directory index of \".*\" is forbidden',
 	'NoSuchFile' : 'No such file or directory'
@@ -59,14 +59,14 @@ class Service(LogService):
 		"""
 		raw = self._get_raw_data()
 
-                for chart in CHARTS:
-                    for line in CHARTS[chart]['lines']:
-                        self.data[line[0]] = 0
+		for chart in CHARTS:
+			for line in CHARTS[chart]['lines']:
+				self.data[line[0]] = 0
 
 		if not raw:
 			return self.data
 		
-                for row in raw:
+		for row in raw:
 			match = re.search(self.regex, row)
 
 			if not match:
