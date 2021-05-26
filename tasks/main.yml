@@ -95,3 +95,11 @@
     group: netdata
     mode: 0640
   when: not nginx_check.changed
+
+- name: "[netdata] Copy updates collector"
+  copy:
+    src: "updates.chart.sh"
+    dest: "/opt/netdata/usr/libexec/netdata/charts.d/updates.chart.sh"
+    owner: netdata
+    group: netdata
+    mode: 0755
