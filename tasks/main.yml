@@ -30,25 +30,25 @@
   - silence
 - name: "[netdata] Reset all alarms"
   uri:
-    url: "{{ netdata.url }}api/v1/manage/health?cmd=RESET"
+    url: "{{ netdata_url }}api/v1/manage/health?cmd=RESET"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata.validate_certs | default('yes') }}"
+    validate_certs: "{{ netdata_validate_certs | default('yes') }}"
   become: no
   delegate_to: 127.0.0.1
-  when: netdata.registry_hostname is defined
+  when: netdata_registry_hostname is defined
   tags:
   - silence
 - name: "[netdata] Silence alarms"
   uri:
-    url: "{{ netdata.url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
+    url: "{{ netdata_url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata.validate_certs | default('yes') }}"
+    validate_certs: "{{ netdata_validate_certs | default('yes') }}"
   become: no
   delegate_to: 127.0.0.1
-  with_items: "{{ netdata.silenced_alarms | default ([]) }}"
-  when: netdata.registry_hostname is defined
+  with_items: "{{ netdata_silenced_alarms | default ([]) }}"
+  when: netdata_registry_hostname is defined
   tags:
   - silence
 

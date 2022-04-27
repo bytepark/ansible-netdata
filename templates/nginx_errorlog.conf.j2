@@ -1,4 +1,4 @@
-{% for host in netdata.monitored_vhosts | default([]) %}
+{% for host in netdata_monitored_vhosts | default([]) %}
 {{ host.name | default(host.hostname) }}:
   name: {{ host.name | default(host.hostname) }}
   path: '/var/log/nginx/{{ host.hostname }}-error.log'

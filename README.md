@@ -15,15 +15,15 @@ Role Variables
 Variable defaults
 
 ```
-netdata.user
-netdata.webfiles_owner
-netdata.webfiles_group
-netdata.bind_ip
-netdata.registry_enabled
-netdata.registry
-netdata.registry_hostname
-netdata.silenced_alarms
-netdata.monitored_vhosts
+netdata_user
+netdata_webfiles_owner
+netdata_webfiles_group
+netdata_bind_ip
+netdata_registry_enabled
+netdata_registry
+netdata_registry_hostname
+netdata_silenced_alarms
+netdata_monitored_vhosts
 ```
 
 

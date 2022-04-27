@@ -12,7 +12,7 @@
 
 # _update_every is a special variable - it holds the number of seconds
 # between the calls of the _update() function
-updates_update_every=
+updates_update_every=600
 updates_priority=60000
 
 updates_total_available=0
