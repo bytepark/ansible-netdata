@@ -1,32 +1,46 @@
-# NetData Configuration
+# netdata configuration
+#
+# You can download the latest version of this file, using:
+#
+#  wget -O /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
+# or
+#  curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
+#
+# You can uncomment and change any of the options below.
+# The value shown in the commented settings, is the default value.
+#
 
-# The current full configuration can be retrieved from the running
-# server at the URL
-#
-#   http://localhost:19999/netdata.conf
-#
-# for example:
-#
-#   wget -O /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
-#
+# global netdata configuration
 
 [global]
-    run as user = {{ netdata_user | default('netdata') }}
-    web files owner = {{ netdata_webfiles_owner | default('netdata') }}
-    web files group = {{ netdata_webfiles_group | default('netdata') }}
-    # Netdata is not designed to be exposed to potentially hostile
-    # networks.See https://github.com/firehol/netdata/issues/164
-    bind socket to IP = {{ netdata_bind_ip | default('127.0.0.1') }}
-    {% if netdata_history is defined %}history = {{ netdata_history }}{% endif %}
+	run as user = {{ netdata_user | default('netdata') }}
+	web files owner = {{ netdata_webfiles_owner | default('netdata') }}
+	web files group = {{ netdata_webfiles_group | default('netdata') }}
+	bind socket to IP = {{ netdata_bind_ip | default('127.0.0.1') }}
+	history = {{ netdata_history | default('14400') }}
 
-
-{% if netdata_registry_enabled is defined %}
 [registry]
-    enabled = {{ netdata_registry_enabled }}
-{% if netdata_registry is defined %}
-    registry to announce = {{ netdata_registry }}
-{% endif %}
-{% if netdata_registry_hostname is defined %}
-    registry hostname = {{ netdata_registry_hostname }}
-{% endif %}
-{% endif %}
+	enabled = {{ netdata_registry_enabled | default('no') }}
+	{% if netdata_registry_enabled is defined and netdata_registry_enabled %}registry domain = {{ netdata_registry }}{% endif %}
+	{% if netdata_registry_enabled is undefined or not netdata_registry_enabled %}registry to announce = {{ netdata_registry }}{% endif %}
+	registry hostname = {{ netdata_registry_hostname }}
+
+[plugins]
+	proc = yes
+	diskspace = yes
+	timex = no
+	cgroups = yes
+	tc = yes
+	idlejitter = no
+	# enable running new plugins = yes
+	# check for new plugins every = 60
+	slabinfo = no
+	fping = no
+	python.d = yes
+	ebpf = yes
+	node.d = no
+	perf = yes
+	go.d = yes
+	ioping = no
+	charts.d = yes
+	apps = yes
