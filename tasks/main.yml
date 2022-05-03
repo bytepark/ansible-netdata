@@ -64,8 +64,6 @@
   copy:
     src: "nginx_errorlog.chart.py"
     dest: "/usr/libexec/netdata/python.d/nginx_errorlog.chart.py"
-    owner: netdata
-    group: netdata
     mode: 0644
   when: not nginx_check.changed
 
@@ -73,33 +71,25 @@
   copy:
     src: "nginx_errorlog.conf"
     dest: "/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
-    owner: netdata
-    group: netdata
-    mode: 0640
+    mode: 0644
   when: not nginx_check.changed
 
 - name: "[netdata] Copy nginx error log plugin job config"
   template:
     src: "nginx_errorlog.conf.j2"
     dest: "/etc/netdata/python.d/nginx_errorlog.conf"
-    owner: netdata
-    group: netdata
-    mode: 0640
+    mode: 0644
   when: not nginx_check.changed
 
 - name: "[netdata] Copy web log plugin job config"
   template:
     src: "web_log.conf.j2"
     dest: "/etc/netdata/python.d/web_log.conf"
-    owner: netdata
-    group: netdata
-    mode: 0640
+    mode: 0644
   when: not nginx_check.changed
 
 - name: "[netdata] Copy updates collector"
   copy:
     src: "updates.chart.sh"
     dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
-    owner: netdata
-    group: netdata
-    mode: 0755
+    mode: 0644
