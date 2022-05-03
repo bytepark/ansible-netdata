@@ -1,30 +1,30 @@
 ---
 - name: "[netdata] Download Netdata Kickstart"
   get_url:
-    url: https://my-netdata.io/kickstart-static64.sh
-    dest: /tmp/kickstart-static64.sh
+    url: https://my-netdata.io/kickstart.sh
+    dest: /tmp/kickstart.sh
     mode: 0440
 - name: "[netdata] Install netdata package"
-  command: "bash /tmp/kickstart-static64.sh --stable-channel --dont-wait"
+  command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait"
 - name: "[netdata] Cleanup Netdata Kickstart"
   file:
-    path: /tmp/kickstart-static64.sh
+    path: /tmp/kickstart.sh
     state: absent
 - name: "[netdata] Copy netdata.conf"
   template:
     src: "netdata.conf.j2"
-    dest: "/opt/netdata/etc/netdata/netdata.conf"
+    dest: "/etc/netdata/netdata.conf"
     mode: 0644
   notify: ['Restart Netdata service']
 - name: "[netdata] Copy health_alarm_notify.conf"
   template:
     src: "health_alarm_notify.conf.j2"
-    dest: "/opt/netdata/etc/netdata/health_alarm_notify.conf"
+    dest: "/etc/netdata/health_alarm_notify.conf"
     mode: 0644
   notify: ['Restart Netdata service']
 - name: "[netdata] Get API Key"
   slurp:
-    src: /opt/netdata/var/lib/netdata/netdata.api.key
+    src: /var/lib/netdata/netdata.api.key
   register: apikey
   tags:
   - silence
@@ -63,7 +63,7 @@
 - name: "[netdata] Copy nginx error log plugin"
   copy:
     src: "nginx_errorlog.chart.py"
-    dest: "/opt/netdata/netdata-plugins/python.d/nginx_errorlog.chart.py"
+    dest: "/usr/libexec/netdata/python.d/nginx_errorlog.chart.py"
     owner: netdata
     group: netdata
     mode: 0644
@@ -72,7 +72,7 @@
 - name: "[netdata] Copy nginx error log plugin health config"
   copy:
     src: "nginx_errorlog.conf"
-    dest: "/opt/netdata/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
+    dest: "/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
     owner: netdata
     group: netdata
     mode: 0640
@@ -81,7 +81,7 @@
 - name: "[netdata] Copy nginx error log plugin job config"
   template:
     src: "nginx_errorlog.conf.j2"
-    dest: "/opt/netdata/etc/netdata/python.d/nginx_errorlog.conf"
+    dest: "/etc/netdata/python.d/nginx_errorlog.conf"
     owner: netdata
     group: netdata
     mode: 0640
@@ -90,7 +90,7 @@
 - name: "[netdata] Copy web log plugin job config"
   template:
     src: "web_log.conf.j2"
-    dest: "/opt/netdata/etc/netdata/python.d/web_log.conf"
+    dest: "/etc/netdata/python.d/web_log.conf"
     owner: netdata
     group: netdata
     mode: 0640
@@ -99,7 +99,7 @@
 - name: "[netdata] Copy updates collector"
   copy:
     src: "updates.chart.sh"
-    dest: "/opt/netdata/usr/libexec/netdata/charts.d/updates.chart.sh"
+    dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
     owner: netdata
     group: netdata
     mode: 0755

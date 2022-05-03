@@ -21,8 +21,10 @@
 
 [registry]
 	enabled = {{ netdata_registry_enabled | default('no') }}
-	{% if netdata_registry_enabled is defined and netdata_registry_enabled %}registry domain = {{ netdata_registry }}{% endif %}
-	{% if netdata_registry_enabled is undefined or not netdata_registry_enabled %}registry to announce = {{ netdata_registry }}{% endif %}
+	{% if netdata_registry_enabled is defined and netdata_registry_enabled %}registry domain = {{ netdata_registry }}
+	{% endif %}
+	{% if netdata_registry_enabled is undefined or not netdata_registry_enabled %}registry to announce = {{ netdata_registry }}
+	{% endif %}
 	registry hostname = {{ netdata_registry_hostname }}
 
 [plugins]
