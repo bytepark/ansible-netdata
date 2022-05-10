@@ -4,30 +4,43 @@
     url: https://my-netdata.io/kickstart.sh
     dest: /tmp/kickstart.sh
     mode: 0440
+    
 - name: "Install netdata package"
   command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait"
+  
 - name: "Cleanup Netdata Kickstart"
   file:
     path: /tmp/kickstart.sh
     state: absent
+    
 - name: "Copy netdata.conf"
   template:
     src: "netdata.conf.j2"
     dest: "/etc/netdata/netdata.conf"
     mode: 0644
   notify: ['Restart Netdata service']
+  
 - name: "Copy health_alarm_notify.conf"
   template:
     src: "health_alarm_notify.conf.j2"
     dest: "/etc/netdata/health_alarm_notify.conf"
     mode: 0644
   notify: ['Restart Netdata service']
+  
+- name: "Copy alarm_notify.sh"
+  copy:
+    src: "alarm-notify.sh"
+    dest: "/usr/libexec/netdata/plugins.d/alarm-notify.sh"
+    mode: 0755
+  notify: ['Restart Netdata service']
+  
 - name: "Get API Key"
   slurp:
     src: /var/lib/netdata/netdata.api.key
   register: apikey
   tags:
   - silence
+  
 - name: "Reset all alarms"
   uri:
     url: "{{ netdata_url }}api/v1/manage/health?cmd=RESET"
@@ -39,6 +52,7 @@
   when: netdata_registry_hostname is defined
   tags:
   - silence
+  
 - name: "Silence alarms"
   uri:
     url: "{{ netdata_url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
