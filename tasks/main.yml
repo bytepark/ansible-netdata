@@ -6,7 +6,7 @@
     mode: 0440
     
 - name: "Install netdata package"
-  command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait"
+  command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates"
   
 - name: "Cleanup Netdata Kickstart"
   file:
