@@ -46,3 +46,7 @@
 	ioping = no
 	charts.d = yes
 	apps = yes
+
+{% if netdata_ml is defined and netdata_ml %}[ml]
+	enabled = yes
+{% endif %}

@@ -24,6 +24,7 @@ netdata_registry
 netdata_registry_hostname
 netdata_silenced_alarms
 netdata_monitored_vhosts
+netdata_ml
 ```
 
 
