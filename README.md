@@ -25,6 +25,8 @@ netdata_registry_hostname
 netdata_silenced_alarms
 netdata_monitored_vhosts
 netdata_ml
+netdata_claim_token
+netdata_claim_room
 ```
 
 

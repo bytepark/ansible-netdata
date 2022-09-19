@@ -8,11 +8,6 @@
 - name: "Install netdata package"
   command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
   
-- name: "Cleanup Netdata Kickstart"
-  file:
-    path: /tmp/kickstart.sh
-    state: absent
-    
 - name: "Copy netdata.conf"
   template:
     src: "netdata.conf.j2"
@@ -107,3 +102,18 @@
     src: "updates.chart.sh"
     dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
     mode: 0644
+    
+- name: "Claim server for netdata cloud"
+  shell:
+    cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
+  when: netdata_claim_token is defined and netdata_claim_room is defined
+
+- name: "Claim server for netdata cloud"
+  shell:
+    cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
+  when: netdata_claim_token is defined and netdata_claim_room is not defined
+
+- name: "Cleanup Netdata Kickstart"
+  file:
+    path: /tmp/kickstart.sh
+    state: absent
