@@ -3,7 +3,12 @@
   get_url:
     url: https://my-netdata.io/kickstart.sh
     dest: /tmp/kickstart.sh
-    mode: 0440
+    mode: +x
     
 - name: "Install netdata package"
-  command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
+  command: "/tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
+  when: not netdata_reinstall_clean
+
+- name: "Remove and Clean Install netdata package"
+  command: "/tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only --reinstall-clean"
+  when: netdata_reinstall_clean
