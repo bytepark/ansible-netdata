@@ -34,8 +34,3 @@
     mode: 0644
   when: not nginx_check.changed
 
-- name: "Copy updates collector"
-  copy:
-    src: "updates.chart.sh"
-    dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
-    mode: 0644
