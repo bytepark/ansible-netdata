@@ -1,0 +1,4 @@
+- name: "Cleanup Netdata Kickstart"
+  file:
+    path: /tmp/kickstart.sh
+    state: absent
