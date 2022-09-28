@@ -1,5 +1,5 @@
 ---
----
+
 # Netdata Tasks
 - include_tasks: install.yml
 
