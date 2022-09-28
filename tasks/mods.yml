@@ -1,0 +1,14 @@
+- name: "Copy alarm_notify.sh"
+  copy:
+    src: "alarm-notify.sh"
+    dest: "/usr/libexec/netdata/plugins.d/alarm-notify.sh"
+    mode: 0755
+  when: override_alarm_notify_sh
+  notify: ['Restart Netdata service']
+  
+  
+- name: "Copy updates collector"
+  copy:
+    src: "updates.chart.sh"
+    dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
+    mode: 0644
