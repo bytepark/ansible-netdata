@@ -87,6 +87,7 @@ netdata_config:
 # Uncomment and fill to activate:
 #netdata_claim_token:
 #netdata_claim_room: 
+netdata_claim_reclaim: no
 
 ## MODs:
 # Override  alarm_notify.sh
