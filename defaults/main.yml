@@ -41,21 +41,21 @@ netdata_config:
         proc = yes
         diskspace = yes
         timex = no
-      	cgroups = yes
-      	tc = yes
-      	idlejitter = no
-      	# enable running new plugins = yes
-      	# check for new plugins every = 60
-      	slabinfo = no
-      	fping = no
-      	python.d = yes
-      	ebpf = yes
-      	node.d = no
-      	perf = yes
-      	go.d = yes
-      	ioping = no
-      	charts.d = yes
-      	apps = yes
+        cgroups = yes
+        tc = yes
+        idlejitter = no
+        # enable running new plugins = yes
+        # check for new plugins every = 60
+        slabinfo = no
+        fping = no
+        python.d = yes
+        ebpf = yes
+        node.d = no
+        perf = yes
+        go.d = yes
+        ioping = no
+        charts.d = yes
+        apps = yes
 ## Health, see: https://learn.netdata.cloud/docs/agent/daemon/config#health-section-options
     - name: health
       options: []
