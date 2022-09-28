@@ -12,24 +12,76 @@
 #  role_recipients_telegram[sysadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"
 #  role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"
 
+
 ## Access
-netdata_bind_ip: 127.0.0.1
+# Make sure to have consistent url/bind/ip/filtering to allow access. Read this config file in full.
 netdata_url: 127.0.0.1
 netdata_validate_certs: yes
 
-#netdata_user: netdata
-#netdata_webfiles_owner: netdata
-#netdata_webfiles_group: netdata
-
-#netdata_history: 14400
-
+# netdata.conf File Settings
+# See https://learn.netdata.cloud/docs/agent/daemon/config
+netdata_config:
+## Global, see: https://learn.netdata.cloud/docs/agent/daemon/config#global-section-options
+    - name: global
+      options: |
+        run as user = netdata
+        web files owner = netdata
+        web files group = netdata
+        bind socket to IP = 127.0.0.1
+        history = 14400
+## Web, see: https://learn.netdata.cloud/docs/agent/web/server
+    - name: web
+      options: |
+        bind to = *:19999
+        allow connections from = localhost 127.* 10.* 172.* 192.*"
+        enable web responses gzip compression = no
+## Plugins, see: https://learn.netdata.cloud/docs/agent/daemon/config#plugins-section-options
+    - name: plugins
+      options: |
+        proc = yes
+        diskspace = yes
+        timex = no
+      	cgroups = yes
+      	tc = yes
+      	idlejitter = no
+      	# enable running new plugins = yes
+      	# check for new plugins every = 60
+      	slabinfo = no
+      	fping = no
+      	python.d = yes
+      	ebpf = yes
+      	node.d = no
+      	perf = yes
+      	go.d = yes
+      	ioping = no
+      	charts.d = yes
+      	apps = yes
+## Health, see: https://learn.netdata.cloud/docs/agent/daemon/config#health-section-options
+    - name: health
+      options: []
 ## Registry
-#netdata_registry_enabled: yes
-#netdata_registry: ''
-#netdata_registry_hostname: ''
-
-## Activate ML
-netdata_ml: yes
+    - name: registry
+      options: |
+        enabled = no
+        registry domain = 
+        registry to announce = 
+        registry hostname = 
+## Cloud, see: https://learn.netdata.cloud/docs/agent/aclk
+    - name: cloud
+      options: []
+## Statsd plugin, see: https://learn.netdata.cloud/docs/agent/collectors/statsd.plugin
+    - name: statsd
+      options: []
+## Machine Learning
+    - name: ml
+      options: |
+        enabled = yes
+## Per Plugin config:
+# ioping example:
+#    - name: 'plugin:ioping'
+#      options: |
+#        update every = 1
+#        command options = 
 
 # Claim to Netdata Cloud
 # Uncomment and fill to activate:
@@ -43,7 +95,7 @@ override_alarm_notify_sh: no
 ## Alarms:
 #netdata_silenced_alarms:
 
-## Plugins
+## Custom Plugins Mods
 
 # Nginx:
 # Uncomment and fill to activate:
