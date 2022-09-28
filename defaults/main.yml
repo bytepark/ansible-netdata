@@ -12,6 +12,8 @@
 #  role_recipients_telegram[sysadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"
 #  role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"
 
+## Install options:
+netdata_reinstall_clean: no
 
 ## Access
 # Make sure to have consistent url/bind/ip/filtering to allow access. Read this config file in full.
