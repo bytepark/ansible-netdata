@@ -26,6 +26,7 @@ In your ansible project's root, run:
 `ansible-galaxy install git+https://github.com/bytepark/ansible-netdata.git,master`
 
 ℹ️ Add `--force` after the command to force update your local role with latest from github.
+
 ℹ️ You can choose another branch but changing `master` to your desired branch.
 
 
