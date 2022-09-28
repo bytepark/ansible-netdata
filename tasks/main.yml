@@ -1,5 +1,4 @@
 ---
-
 # Netdata Tasks
 - include_tasks: install.yml
 
@@ -7,10 +6,10 @@
 
 - include_tasks: plugins.yml
 
-- include_tasks: alarms.yml
-
 - include_tasks: mods.yml
 
 - include_tasks: claim.yml
+
+- include_tasks: alarms.yml
 
 - include_tasks: clean.yml
