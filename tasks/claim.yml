@@ -31,14 +31,14 @@
 
     - name: Reclaim the node with `-id=` to specified room
       shell:
-        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud  -id=$(uuidgen)"
+        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud --claim-id $(uuidgen)"
       when: uuidgen_result.stat.exists == true and netdata_claim_token is defined and netdata_claim_room is defined
       notify: Restart Netdata service
       become: yes
 
     - name: Reclaim the node with `-id=` without room
       shell:
-        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud  -id=$(uuidgen)"
+        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud --claim-id $(uuidgen)"
       when: uuidgen_result.stat.exists == true and netdata_claim_token is defined and netdata_claim_room is not defined
       notify: Restart Netdata service
       become: yes
