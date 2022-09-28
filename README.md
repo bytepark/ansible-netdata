@@ -27,7 +27,7 @@ In your ansible project's root, run:
 
 ℹ️ Add `--force` after the command to force update your local role with latest from github.
 
-ℹ️ You can choose another branch but changing `master` to your desired branch.
+ℹ️ You can choose another branch by changing `master` to your desired branch.
 
 
 Example Playbook
