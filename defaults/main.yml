@@ -1,5 +1,53 @@
 ---
-netdata_bind_ip: 127.0.0.1  
+# Netdata Default variables
+
+# Most vars need to be uncommented and filled to be taken into account.
+
+# Define custom alarm notify config:
+# Uncomment and complete to activate:
+#netdata_health_alarm_notify: |
+#  role_recipients_email[sysadmin]="${DEFAULT_RECIPIENT_EMAIL}"
+#  role_recipients_pushover[sysadmin]="${DEFAULT_RECIPIENT_PUSHOVER}"
+#  role_recipients_pushbullet[sysadmin]="${DEFAULT_RECIPIENT_PUSHBULLET}"
+#  role_recipients_telegram[sysadmin]="${DEFAULT_RECIPIENT_TELEGRAM}"
+#  role_recipients_slack[sysadmin]="${DEFAULT_RECIPIENT_SLACK}"
+
+## Access
+netdata_bind_ip: 127.0.0.1
 netdata_url: 127.0.0.1
 netdata_validate_certs: yes
+
+#netdata_user: netdata
+#netdata_webfiles_owner: netdata
+#netdata_webfiles_group: netdata
+
+#netdata_history: 14400
+
+## Registry
+#netdata_registry_enabled: yes
+#netdata_registry: ''
+#netdata_registry_hostname: ''
+
+## Activate ML
 netdata_ml: yes
+
+# Claim to Netdata Cloud
+# Uncomment and fill to activate:
+#netdata_claim_token:
+#netdata_claim_room: 
+
+## MODs:
+# Override  alarm_notify.sh
+override_alarm_notify_sh: no
+
+## Alarms:
+#netdata_silenced_alarms:
+
+## Plugins
+
+# Nginx:
+# Uncomment and fill to activate:
+#netdata_monitored_vhosts:
+#  - name: ExampleVhost
+#    hostname: example.com
+#    logfile_format: yes
