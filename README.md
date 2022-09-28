@@ -12,28 +12,22 @@ Requires bash.
 
 Role Variables
 --------------
-Variable defaults
-
-```
-netdata_user
-netdata_webfiles_owner
-netdata_webfiles_group
-netdata_bind_ip
-netdata_registry_enabled
-netdata_registry
-netdata_registry_hostname
-netdata_silenced_alarms
-netdata_monitored_vhosts
-netdata_ml
-netdata_claim_token
-netdata_claim_room
-```
-
+See `defaults/main.yml` for all available variables and there usage info.
 
 Dependencies
 ------------
 
 No dependencies.
+
+
+Install from github
+----------------
+In your ansible project's root, run:
+`ansible-galaxy install git+https://github.com/bytepark/ansible-netdata.git,master`
+
+ℹ️ Add `--force` after the command to force update your local role with latest from github.
+ℹ️ You can choose another branch but changing `master` to your desired branch.
+
 
 Example Playbook
 ----------------
@@ -51,3 +45,7 @@ Author Information
 ------------------
 
 bytepark / 2019.
+
+Contributors Information
+------------------
+[Amir Moradi](https://github.com/amirhmoradi)
