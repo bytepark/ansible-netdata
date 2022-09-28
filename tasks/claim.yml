@@ -1,9 +1,46 @@
-- name: "Claim server for netdata cloud"
-  shell:
-    cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
-  when: netdata_claim_token is defined and netdata_claim_room is defined
+---
+- name: Claim to Netdata Cloud
+  block: 
 
-- name: "Claim server for netdata cloud"
-  shell:
-    cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
-  when: netdata_claim_token is defined and netdata_claim_room is not defined
+  - name: "Claim server for netdata cloud to specified room"
+    shell:
+      cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
+    notify: Restart Netdata service
+    when: netdata_claim_token is defined and netdata_claim_room is defined
+
+  - name: "Claim server for netdata cloud without room"
+    shell:
+      cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
+    notify: Restart Netdata service
+    when: netdata_claim_token is defined and netdata_claim_room is not defined
+
+  when: not netdata_claim_reclaim
+
+- name: Re-claim a node to Netdata Cloud
+  block:
+
+    - name: Ensure `uuidgen` is installed
+      stat:
+        path: /usr/bin/uuidgen
+      register: uuidgen_result
+    
+    - name: Fail if `uuidgen` is not installed
+      fail:
+        msg: The system needs `uuidgen` installed to enable re-claiming.
+      when: uuidgen_result.stat.exists == false
+
+    - name: Reclaim the node with `-id=` to specified room
+      shell:
+        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud  -id=$(uuidgen)"
+      when: uuidgen_result.stat.exists == true and netdata_claim_token is defined and netdata_claim_room is defined
+      notify: Restart Netdata service
+      become: yes
+
+    - name: Reclaim the node with `-id=` without room
+      shell:
+        cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud  -id=$(uuidgen)"
+      when: uuidgen_result.stat.exists == true and netdata_claim_token is defined and netdata_claim_room is not defined
+      notify: Restart Netdata service
+      become: yes
+
+  when: netdata_claim_reclaim
