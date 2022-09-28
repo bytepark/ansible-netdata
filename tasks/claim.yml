@@ -1,0 +1,9 @@
+- name: "Claim server for netdata cloud"
+  shell:
+    cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
+  when: netdata_claim_token is defined and netdata_claim_room is defined
+
+- name: "Claim server for netdata cloud"
+  shell:
+    cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
+  when: netdata_claim_token is defined and netdata_claim_room is not defined
