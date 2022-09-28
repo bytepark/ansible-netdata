@@ -5,13 +5,6 @@
     mode: 0644
   notify: ['Restart Netdata service']
   
-- name: "Copy alarm_notify.sh"
-  copy:
-    src: "alarm-notify.sh"
-    dest: "/usr/libexec/netdata/plugins.d/alarm-notify.sh"
-    mode: 0755
-  notify: ['Restart Netdata service']
-  
 - name: "Get API Key"
   slurp:
     src: /var/lib/netdata/netdata.api.key
