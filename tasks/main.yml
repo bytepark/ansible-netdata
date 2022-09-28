@@ -1,119 +1,16 @@
 ---
-- name: "Download Netdata Kickstart"
-  get_url:
-    url: https://my-netdata.io/kickstart.sh
-    dest: /tmp/kickstart.sh
-    mode: 0440
-    
-- name: "Install netdata package"
-  command: "bash /tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
-  
-- name: "Copy netdata.conf"
-  template:
-    src: "netdata.conf.j2"
-    dest: "/etc/netdata/netdata.conf"
-    mode: 0644
-  notify: ['Restart Netdata service']
-  
-- name: "Copy health_alarm_notify.conf"
-  template:
-    src: "health_alarm_notify.conf.j2"
-    dest: "/etc/netdata/health_alarm_notify.conf"
-    mode: 0644
-  notify: ['Restart Netdata service']
-  
-- name: "Copy alarm_notify.sh"
-  copy:
-    src: "alarm-notify.sh"
-    dest: "/usr/libexec/netdata/plugins.d/alarm-notify.sh"
-    mode: 0755
-  notify: ['Restart Netdata service']
-  
-- name: "Get API Key"
-  slurp:
-    src: /var/lib/netdata/netdata.api.key
-  register: apikey
-  tags:
-  - silence
-  
-- name: "Reset all alarms"
-  uri:
-    url: "{{ netdata_url }}api/v1/manage/health?cmd=RESET"
-    headers:
-      X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata_validate_certs | default('yes') }}"
-  become: no
-  delegate_to: 127.0.0.1
-  when: netdata_registry_hostname is defined
-  tags:
-  - silence
-  
-- name: "Silence alarms"
-  uri:
-    url: "{{ netdata_url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
-    headers:
-      X-Auth-Token: "{{ apikey.content | b64decode }}"
-    validate_certs: "{{ netdata_validate_certs | default('yes') }}"
-  become: no
-  delegate_to: 127.0.0.1
-  with_items: "{{ netdata_silenced_alarms | default ([]) }}"
-  when: netdata_registry_hostname is defined
-  tags:
-  - silence
+---
+# Netdata Tasks
+- include_tasks: install.yml
 
-- name: "Check if nginx is installed"
-  package:
-    name: nginx
-    state: present
-  check_mode: true
-  failed_when: false
-  register: nginx_check
+- include_tasks: configure.yml
 
-- name: "Copy nginx error log plugin"
-  copy:
-    src: "nginx_errorlog.chart.py"
-    dest: "/usr/libexec/netdata/python.d/nginx_errorlog.chart.py"
-    mode: 0644
-  when: not nginx_check.changed
+- include_tasks: plugins.yml
 
-- name: "Copy nginx error log plugin health config"
-  copy:
-    src: "nginx_errorlog.conf"
-    dest: "/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
-    mode: 0644
-  when: not nginx_check.changed
+- include_tasks: alarms.yml
 
-- name: "Copy nginx error log plugin job config"
-  template:
-    src: "nginx_errorlog.conf.j2"
-    dest: "/etc/netdata/python.d/nginx_errorlog.conf"
-    mode: 0644
-  when: not nginx_check.changed
+- include_tasks: mods.yml
 
-- name: "Copy web log plugin job config"
-  template:
-    src: "web_log.conf.j2"
-    dest: "/etc/netdata/python.d/web_log.conf"
-    mode: 0644
-  when: not nginx_check.changed
+- include_tasks: claim.yml
 
-- name: "Copy updates collector"
-  copy:
-    src: "updates.chart.sh"
-    dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
-    mode: 0644
-    
-- name: "Claim server for netdata cloud"
-  shell:
-    cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
-  when: netdata_claim_token is defined and netdata_claim_room is defined
-
-- name: "Claim server for netdata cloud"
-  shell:
-    cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
-  when: netdata_claim_token is defined and netdata_claim_room is not defined
-
-- name: "Cleanup Netdata Kickstart"
-  file:
-    path: /tmp/kickstart.sh
-    state: absent
+- include_tasks: clean.yml
