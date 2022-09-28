@@ -1,0 +1,41 @@
+- name: "Check if nginx is installed"
+  package:
+    name: nginx
+    state: present
+  check_mode: true
+  failed_when: false
+  register: nginx_check
+
+- name: "Copy nginx error log plugin"
+  copy:
+    src: "nginx_errorlog.chart.py"
+    dest: "/usr/libexec/netdata/python.d/nginx_errorlog.chart.py"
+    mode: 0644
+  when: not nginx_check.changed
+
+- name: "Copy nginx error log plugin health config"
+  copy:
+    src: "nginx_errorlog.conf"
+    dest: "/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
+    mode: 0644
+  when: not nginx_check.changed
+
+- name: "Copy nginx error log plugin job config"
+  template:
+    src: "nginx_errorlog.conf.j2"
+    dest: "/etc/netdata/python.d/nginx_errorlog.conf"
+    mode: 0644
+  when: not nginx_check.changed
+
+- name: "Copy web log plugin job config"
+  template:
+    src: "web_log.conf.j2"
+    dest: "/etc/netdata/python.d/web_log.conf"
+    mode: 0644
+  when: not nginx_check.changed
+
+- name: "Copy updates collector"
+  copy:
+    src: "updates.chart.sh"
+    dest: "/usr/libexec/netdata/charts.d/updates.chart.sh"
+    mode: 0644
