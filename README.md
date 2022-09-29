@@ -37,6 +37,18 @@ Example Playbook
       roles:
          - { role: bytepark.netdata }
 
+
+Troubleshooting
+----------------
+
+If netdata service cannot start, there might be a file/folder permission issue, fix it by running the following on the host (not on your ansible machine)
+
+``` 
+#Fixes netdata service start errors:
+chown -R netdata:root /var/lib/netdata
+chown -R netdata:root /etc/netdata
+```
+
 License
 -------
 
