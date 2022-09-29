@@ -19,6 +19,11 @@
 - name: Re-claim a node to Netdata Cloud
   block:
 
+    - name: Install uuid-runtime
+      ansible.builtin.package:
+        name: uuid-runtime
+        state: present
+        
     - name: Ensure `uuidgen` is installed
       stat:
         path: /usr/bin/uuidgen
