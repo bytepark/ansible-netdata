@@ -1,0 +1,23 @@
+---
+- name: "Download Netdata Kickstart"
+  get_url:
+    url: https://my-netdata.io/kickstart.sh
+    dest: /tmp/kickstart.sh
+    mode: +x
+    
+- name: "Install netdata package"
+  command: "/tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
+  when: not netdata_reinstall_clean
+
+- name: "Remove and Clean Install netdata package"
+# there is a bug in netdata official reinstall-clean method which uses a non existing /tmp sub-dir to download the native
+# package, and it causes the script to fail, so we use an 'uninstall' step, then an 'install' step.
+  block:
+    - name: "Remove netdata using official kickstart script"
+      command: "/tmp/kickstart.sh --uninstall"
+      ignore_errors: yes
+
+    - name: "Install netdata using official kickstart script"
+      command: "/tmp/kickstart.sh --stable-channel --disable-telemetry --dont-wait --no-updates --native-only"
+
+  when: netdata_reinstall_clean

@@ -1,3 +1,5 @@
+## {{ ansible_managed }}
+
 # netdata configuration
 #
 # You can download the latest version of this file, using:
@@ -6,47 +8,10 @@
 # or
 #  curl -o /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
 #
-# You can uncomment and change any of the options below.
-# The value shown in the commented settings, is the default value.
-#
 
-# global netdata configuration
-
-[global]
-	run as user = {{ netdata_user | default('netdata') }}
-	web files owner = {{ netdata_webfiles_owner | default('netdata') }}
-	web files group = {{ netdata_webfiles_group | default('netdata') }}
-	bind socket to IP = {{ netdata_bind_ip | default('127.0.0.1') }}
-	history = {{ netdata_history | default('14400') }}
-
-[registry]
-	enabled = {{ netdata_registry_enabled | default('no') }}
-	{% if netdata_registry_enabled is defined and netdata_registry_enabled %}registry domain = {{ netdata_registry }}
-	{% endif %}
-	{% if netdata_registry_enabled is undefined or not netdata_registry_enabled %}registry to announce = {{ netdata_registry }}
-	{% endif %}
-	registry hostname = {{ netdata_registry_hostname }}
-
-[plugins]
-	proc = yes
-	diskspace = yes
-	timex = no
-	cgroups = yes
-	tc = yes
-	idlejitter = no
-	# enable running new plugins = yes
-	# check for new plugins every = 60
-	slabinfo = no
-	fping = no
-	python.d = yes
-	ebpf = yes
-	node.d = no
-	perf = yes
-	go.d = yes
-	ioping = no
-	charts.d = yes
-	apps = yes
-
-{% if netdata_ml is defined and netdata_ml %}[ml]
-	enabled = yes
-{% endif %}
+{% for section in netdata_config %}
+{% if section.options %}
+[{{ section.name }}]
+    {{ section.options | indent(4, false) }}
+{%- endif %}
+{% endfor %}

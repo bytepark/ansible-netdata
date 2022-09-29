@@ -1,0 +1,36 @@
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: "Check is NGINX is installed"
+  ansible.builtin.set_fact:
+    nginx_is_installed: "{{ ('nginx' in ansible_facts.packages) | ternary('yes', 'no', 'no') | bool }}"
+
+- name: "Copy nginx error log plugin"
+  copy:
+    src: "nginx_errorlog.chart.py"
+    dest: "/usr/libexec/netdata/python.d/nginx_errorlog.chart.py"
+    mode: 0644
+  when: nginx_is_installed
+
+- name: "Copy nginx error log plugin health config"
+  copy:
+    src: "nginx_errorlog.conf"
+    dest: "/usr/lib/netdata/conf.d/health.d/nginx_errorlog.conf"
+    mode: 0644
+  when: nginx_is_installed
+
+- name: "Copy nginx error log plugin job config"
+  template:
+    src: "nginx_errorlog.conf.j2"
+    dest: "/etc/netdata/python.d/nginx_errorlog.conf"
+    mode: 0644
+  when: nginx_is_installed
+
+- name: "Copy web log plugin job config"
+  template:
+    src: "web_log.conf.j2"
+    dest: "/etc/netdata/python.d/web_log.conf"
+    mode: 0644
+  when: nginx_is_installed
+

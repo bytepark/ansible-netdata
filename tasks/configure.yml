@@ -1,0 +1,6 @@
+- name: "Copy netdata.conf"
+  template:
+    src: "netdata.conf.j2"
+    dest: "/etc/netdata/netdata.conf"
+    mode: 0644
+  notify: ['Restart Netdata service']
