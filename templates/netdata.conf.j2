@@ -10,8 +10,8 @@
 #
 
 {% for section in netdata_config %}
-{% if section.options %}
-[{{ section.name }}]
-    {{ section.options | indent(4, false) }}
-{%- endif %}
+[{{ section }}]
+    {% for entry in netdata_config[section] %}
+    {{ entry }} = {{ netdata_config[section][entry] }}
+    {% endfor %}
 {% endfor %}

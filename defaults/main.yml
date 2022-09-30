@@ -24,66 +24,52 @@ netdata_validate_certs: yes
 # See https://learn.netdata.cloud/docs/agent/daemon/config
 netdata_config:
 ## Global, see: https://learn.netdata.cloud/docs/agent/daemon/config#global-section-options
-    - name: global
-      options: |
-        run as user = netdata
-        web files owner = netdata
-        web files group = netdata
-        bind socket to IP = 127.0.0.1
-        history = 14400
+    global:
+      run as user: netdata
+      web files owner: netdata
+      web files group: netdata
+      bind socket to IP: 127.0.0.1
+      history: 14400
 ## Web, see: https://learn.netdata.cloud/docs/agent/web/server
-    - name: web
-      options: |
-        bind to = *:19999
-        allow connections from = localhost 127.* 10.* 172.* 192.*"
-        enable web responses gzip compression = no
+    web:
+      bind to: "*:19999"
+      allow connections from: localhost 127.* 10.* 172.* 192.*"
+      enable web responses gzip compression: no
 ## Plugins, see: https://learn.netdata.cloud/docs/agent/daemon/config#plugins-section-options
-    - name: plugins
-      options: |
-        proc = yes
-        diskspace = yes
-        timex = no
-        cgroups = yes
-        tc = yes
-        idlejitter = no
-        # enable running new plugins = yes
-        # check for new plugins every = 60
-        slabinfo = no
-        fping = no
-        python.d = yes
-        ebpf = yes
-        node.d = no
-        perf = yes
-        go.d = yes
-        ioping = no
-        charts.d = yes
-        apps = yes
+    plugins:
+      proc: yes
+      diskspace: yes
+      timex: no
+      cgroups: yes
+      tc: yes
+      idlejitter: no
+      # enable running new plugins: yes
+      # check for new plugins every: 60
+      slabinfo: no
+      fping: no
+      python.d: yes
+      ebpf: yes
+      node.d: no
+      perf: yes
+      go.d: yes
+      ioping: no
+      charts.d: yes
+      apps: yes
 ## Health, see: https://learn.netdata.cloud/docs/agent/daemon/config#health-section-options
-    - name: health
-      options: []
+    # health:
 ## Registry
-    - name: registry
-      options: |
-        enabled = no
-        registry domain = 
-        registry to announce = 
-        registry hostname = 
+    registry:
+      enabled: no
+      registry domain: 
+      registry to announce: 
+      registry hostname: 
 ## Cloud, see: https://learn.netdata.cloud/docs/agent/aclk
-    - name: cloud
-      options: []
+    # cloud:
 ## Statsd plugin, see: https://learn.netdata.cloud/docs/agent/collectors/statsd.plugin
-    - name: statsd
-      options: []
+    # statsd:
 ## Machine Learning
-    - name: ml
-      options: |
-        enabled = yes
-## Per Plugin config:
-# ioping example:
-#    - name: 'plugin:ioping'
-#      options: |
-#        update every = 1
-#        command options = 
+    ml:
+      enabled: yes
 
 # Set Netdata Cloud claiming details. To find your `netdata_claim_token` and
 # `netdata_claim_room`, go to Netdata Cloud, then click on your Space's name in the top
