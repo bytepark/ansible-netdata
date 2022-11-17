@@ -10,7 +10,7 @@
 
   - name: "Claim server for netdata cloud without room"
     shell:
-      cmd: "sh /tmp/netdata-kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
+      cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-url https://app.netdata.cloud"
     notify: Restart Netdata service
     when: netdata_claim_token is defined and netdata_claim_room is not defined
 
