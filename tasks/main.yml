@@ -1,15 +1,27 @@
 ---
 # Netdata Tasks
-- include_tasks: install.yml
+- name: "Check if netdata available"
+  shell:
+    cmd: netdata -version
+  register: result
+  changed_when: result.rc != 0
 
+- include_tasks: install.yml
+  when: result.rc != 0 or netdata_force_install
+  
 - include_tasks: configure.yml
 
 - include_tasks: plugins.yml
 
 - include_tasks: mods.yml
 
+- name: "Debug"
+  ansible.builtin.debug:
+    var: netdata_skip_claim
+    
 - include_tasks: claim.yml
-
+  when: not netdata_skip_claim
+  
 - include_tasks: alarms.yml
 
 - include_tasks: clean.yml
