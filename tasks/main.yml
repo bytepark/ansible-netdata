@@ -7,7 +7,7 @@
   changed_when: result.rc != 0
 
 - include_tasks: install.yml
-  when: result.rc != 0 or netdata_force_install
+  when: result.rc != 0 or (netdata_force_install is defined and netdata_force_install)
   
 - include_tasks: configure.yml
 
