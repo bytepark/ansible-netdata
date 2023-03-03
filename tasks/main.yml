@@ -2,8 +2,9 @@
 # Netdata Tasks
 - name: "Check if netdata available"
   shell:
-    cmd: netdata -version
+    cmd: netdata -versio
   register: result
+  ignore_errors: True
   changed_when: result.rc != 0
 
 - include_tasks: install.yml
@@ -20,7 +21,7 @@
     var: netdata_skip_claim
     
 - include_tasks: claim.yml
-  when: not netdata_skip_claim
+  when: netdata_force_install is not defined or not netdata_skip_claim
   
 - include_tasks: alarms.yml
 
