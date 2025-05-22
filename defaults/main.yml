@@ -17,7 +17,7 @@ netdata_reinstall_clean: no
 
 ## Access
 # Make sure to have consistent url/bind/ip/filtering to allow access. Read this config file in full.
-netdata_url: 127.0.0.1
+netdata_url: http://127.0.0.1
 netdata_validate_certs: yes
 
 # netdata.conf File Settings
