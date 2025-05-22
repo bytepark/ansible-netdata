@@ -14,7 +14,7 @@
   
 - name: "Reset all alarms"
   uri:
-    url: "{{ netdata_url }}api/v1/manage/health?cmd=RESET"
+    url: "{{ netdata_url }}/api/v1/manage/health?cmd=RESET"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
     validate_certs: "{{ netdata_validate_certs | default('yes') }}"
@@ -25,7 +25,7 @@
   
 - name: "Silence alarms"
   uri:
-    url: "{{ netdata_url }}api/v1/manage/health?cmd=SILENCE&{{ item }}"
+    url: "{{ netdata_url }}/api/v1/manage/health?cmd=SILENCE&{{ item }}"
     headers:
       X-Auth-Token: "{{ apikey.content | b64decode }}"
     validate_certs: "{{ netdata_validate_certs | default('yes') }}"
