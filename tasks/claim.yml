@@ -1,12 +1,13 @@
 ---
+- name: "Download Netdata Kickstart"
+  get_url:
+    url: https://my-netdata.io/kickstart.sh
+    dest: /tmp/kickstart.sh
+    mode: +x
+
 - name: Claim to Netdata Cloud
-  block: 
-  - name: "Download Netdata Kickstart"
-    get_url:
-      url: https://my-netdata.io/kickstart.sh
-      dest: /tmp/kickstart.sh
-      mode: +x
-      
+  block:
+
   - name: "Claim server for netdata cloud to specified room"
     shell:
       cmd: "sh /tmp/kickstart.sh --claim-token {{ netdata_claim_token }} --claim-rooms {{ netdata_claim_room }} --claim-url https://app.netdata.cloud"
