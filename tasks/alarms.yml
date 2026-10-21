@@ -19,6 +19,7 @@
       X-Auth-Token: "{{ apikey.content | b64decode }}"
     validate_certs: "{{ netdata_validate_certs | default('yes') }}"
   become: no
+  when: netdata_reset_alarms | bool
   tags:
   - silence
 

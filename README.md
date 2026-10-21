@@ -14,6 +14,16 @@ Role Variables
 --------------
 See `defaults/main.yml` for all available variables and there usage info.
 
+### Silencing alarms
+
+On every run the role resets all alarms (`cmd=RESET` on the health management API) and then
+silences the alarms listed in `netdata_silenced_alarms`. The reset also cancels any silencer set
+outside this role, for example a maintenance window that silences all notifications while the
+playbook runs. Set `netdata_reset_alarms: no` to skip the reset.
+
+Side effect: without the reset, an alarm removed from `netdata_silenced_alarms` stays silenced
+until the silencers are reset, for example by a run with `netdata_reset_alarms: yes`.
+
 Dependencies
 ------------
 
