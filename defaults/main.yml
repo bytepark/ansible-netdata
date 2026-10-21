@@ -89,6 +89,9 @@ override_alarm_notify_sh: no
 
 ## Alarms:
 #netdata_silenced_alarms:
+# Reset all alarms (cmd=RESET) before silencing netdata_silenced_alarms. Set to no to keep
+# silencers set outside this role (e.g. a maintenance window during the playbook run).
+netdata_reset_alarms: yes
 
 ## Custom Plugins Mods
 
